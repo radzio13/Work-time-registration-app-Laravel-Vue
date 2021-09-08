@@ -24,5 +24,6 @@ Route::prefix('/work')->group( function () {
     Route::put('/{id}', [WorkController::class, 'update']);
     Route::put('/{id}/stop', [WorkController::class, 'stopWork']);
     Route::delete('/{id}', [WorkController::class, 'destroy']);
+    Route::get('/search/{data}', [WorkController::class, 'searchData']);
     }
 );

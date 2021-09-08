@@ -127,4 +127,10 @@ class WorkController extends Controller
 
         return "Work not found.";
     }
+
+    public function searchData($data)
+    {
+            $work = Work::where('start_working', 'LIKE', '%'.$data.'%')->get();
+            return $work;
+    }
 }
