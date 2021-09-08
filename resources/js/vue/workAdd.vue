@@ -1,7 +1,7 @@
 <template>
     <div class="addWork">
         <input type="text" v-model="work.name" placeholder="Wpisz nazwę wykonywanego zadania"/>
-        <button @click="addWork()" class="btn btn-success" :disabled="!work.name.length">Dodaj</button>
+        <button @click="addWork()" class="btn btn-primary" :disabled="!work.name.length">Dodaj</button>
     </div>
 </template>
 

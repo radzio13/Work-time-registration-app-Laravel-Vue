@@ -130,7 +130,18 @@ class WorkController extends Controller
 
     public function searchData($data)
     {
-            $work = Work::where('start_working', 'LIKE', '%'.$data.'%')->get();
-            return $work;
+        
+        $work = Work::where('start_working', 'LIKE', '%'.$data.'%')->get();
+        return $work;
+    }
+
+    public function searchData2($data, $data2)
+    {
+        $from = date('2021-07-01');
+        $to = date('2022-05-02');
+        $work = Work::whereBetween('start_working', [$data, $data2])->get();
+
+        //$work = Work::where('start_working', 'LIKE', '%'.$data.'%')->get();
+        return $work;
     }
 }

@@ -1,8 +1,8 @@
 <template>
     <div class="work">
         <span :class="[work.completed ? 'completed' : '', 'workText']"> {{ work.name }} </span>
-        <span :class="[work.completed ? 'completed' : '', 'workText']"> {{ work.start_working | moment("dddd, MMMM Do YYYY, h:mm:ss a") }} </span>
-        <span :class="[work.completed ? 'completed' : '', 'workText']"> {{ work.end_working | moment("dddd, MMMM Do YYYY, h:mm:ss a") }} </span>
+        <span :class="[work.completed ? 'completed' : '', 'workText']"> {{ work.start_working | moment("DD/MM/YYYY HH:mm:ss") }} </span>
+        <span :class="[work.completed ? 'completed' : '', 'workText']"> {{ work.end_working | moment("DD/MM/YYYY HH:mm:ss") }} </span>
         <span v-if="work.start_working && !work.end_working" id="processing">W&nbsp;trakcie...</span>
         <span v-if="!work.start_working && !work.end_working" id="processing">Nie&nbsp;rozpoczęte.</span>
         <button @click="updateCheck()" class="btn btn-success" :disabled="work.start_working ? true : false">Rozpocznij</button>
@@ -12,7 +12,8 @@
 </template>
 
 <script>
-
+//DD/MM/YYYY HH:mm:ss
+//dddd, MMMM Do YYYY, h:mm:ss a
 
 export default {
     props: ['work'],
