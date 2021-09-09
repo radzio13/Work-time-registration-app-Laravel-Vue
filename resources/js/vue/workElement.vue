@@ -1,8 +1,8 @@
 <template>
     <div class="work">
         <span :class="[work.completed ? 'completed' : '', 'workText']"> {{ work.name }} </span>
-        <span :class="[work.completed ? 'completed' : '', 'workText']"> {{ work.start_working | moment("DD/MM/YYYY HH:mm:ss") }} </span>
-        <span :class="[work.completed ? 'completed' : '', 'workText']"> {{ work.end_working | moment("DD/MM/YYYY HH:mm:ss") }} </span>
+        <span :class="[work.completed ? 'completed' : '', 'workText']"> {{ work.start_working | moment("YYYY-MM-DD HH:mm:ss") }} </span>
+        <span :class="[work.completed ? 'completed' : '', 'workText']"> {{ work.end_working | moment("YYYY-MM-DD HH:mm:ss") }} </span>
         <span v-if="work.start_working && !work.end_working" id="processing">W&nbsp;trakcie...</span>
         <span v-if="!work.start_working && !work.end_working" id="processing">Nie&nbsp;rozpoczęte.</span>
         <button @click="startWork()" class="btn btn-success" :disabled="work.start_working ? true : false">Rozpocznij</button>
@@ -74,6 +74,9 @@ export default {
 }
 #processing {
     margin-right: 5px;
+}
+button {
+    margin-left: 3px;
 }
 
 
