@@ -19,7 +19,6 @@ export default {
             if (this.work.name == '') {
                 return;
             }
-
             axios.post('/work/store', {
                 work: this.work
             })

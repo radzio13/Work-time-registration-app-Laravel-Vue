@@ -21,10 +21,10 @@ Route::get('/', function () {
 Route::get('/works', [WorkController::class, 'index']);
 Route::prefix('/work')->group( function () {
     Route::post('/store', [WorkController::class, 'store']);
-    Route::put('/{id}', [WorkController::class, 'update']);
+    Route::put('/{id}/start', [WorkController::class, 'startWork']);
     Route::put('/{id}/stop', [WorkController::class, 'stopWork']);
     Route::delete('/{id}', [WorkController::class, 'destroy']);
-    Route::get('/search/{data}', [WorkController::class, 'searchData']);
-    Route::get('/search/{data}/{data2}', [WorkController::class, 'searchData2']);
+    Route::get('/search/{date}', [WorkController::class, 'searchData']);
+    Route::get('/search/{date_from}/{date_to}', [WorkController::class, 'searchDataRange']);
     }
 );

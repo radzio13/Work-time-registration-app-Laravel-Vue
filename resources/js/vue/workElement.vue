@@ -5,38 +5,34 @@
         <span :class="[work.completed ? 'completed' : '', 'workText']"> {{ work.end_working | moment("DD/MM/YYYY HH:mm:ss") }} </span>
         <span v-if="work.start_working && !work.end_working" id="processing">W&nbsp;trakcie...</span>
         <span v-if="!work.start_working && !work.end_working" id="processing">Nie&nbsp;rozpoczęte.</span>
-        <button @click="updateCheck()" class="btn btn-success" :disabled="work.start_working ? true : false">Rozpocznij</button>
-        <button @click="stopWork()" class="btn btn-warning" :disabled="work.completed ? true : false">Zakończ</button>
-        <button @click="removeItem()" class="btn btn-danger">Usuń</button>
+        <button @click="startWork()" class="btn btn-success" :disabled="work.start_working ? true : false">Rozpocznij</button>
+        <button @click="stopWork()" class="btn btn-warning" :disabled="work.completed || !work.start_working ? true : false">Zakończ</button>
+        <button @click="removeWork()" class="btn btn-danger">Usuń</button>
     </div>
 </template>
 
 <script>
-//DD/MM/YYYY HH:mm:ss
-//dddd, MMMM Do YYYY, h:mm:ss a
-
 export default {
     props: ['work'],
     methods: {
-        updateCheck() {
-            //this.work.completed = !this.work.completed;
-            axios.put('/work/' + this.work.id, {
+        startWork() {
+            axios.put('/work/' + this.work.id + '/start', {
                 work: this.work
             })
             .then(response => {
                 if(response.status == 200) {
-                    this.$emit('itemchanged');
+                    this.$emit('workchanged');
                 }
             })
             .catch(error => {
                 console.log(error);
             })
         },
-        removeItem() {
+        removeWork() {
             axios.delete('/work/' + this.work.id)
             .then(response => {
                 if(response.status == 200) {
-                    this.$emit('itemchanged');
+                    this.$emit('workchanged');
                 }
             })
             .catch(error => {
@@ -50,7 +46,7 @@ export default {
             })
             .then(response => {
                 if(response.status == 200) {
-                    this.$emit('itemchanged');
+                    this.$emit('workchanged');
                 }
             })
             .catch(error => {

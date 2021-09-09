@@ -1,12 +1,12 @@
 <template>
     <div>
-        <div class="work2">
+        <div class="workTextContainer">
         <h4 class="workText">Nazwa</h4>
         <h4 class="workText">Data rozpoczęcia</h4>
         <h4 class="workText">Data zakończenia</h4>
         </div>
         <div v-for="(work, index) in works" :key="index" >
-            <work-element :work="work" class="work" v-on:itemchanged="$emit('reloadlist')" />
+            <work-element :work="work" class="work" v-on:workchanged="$emit('reloadlist')" />
         </div>
     </div>
 </template>
@@ -30,7 +30,7 @@ export default {
     margin-top: 5px;
 }
 
-.work2 {
+.workTextContainer {
     background: #e6e6e6;
     display: flex;
     justify-content: center;

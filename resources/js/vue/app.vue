@@ -5,16 +5,17 @@
                 <work-add v-on:reloadlist="getList()" />
                 <div class="searchFieldsContainer">
                     <span>Wyszukiwanie wpisów w danym dniu, miesiącu, roku:</span><br/>
-                    <input type="text" v-model="search" placeholder="Wpisz datę szukanego zadania (np. '2021-09-08' lub '2021-09' lub '2021' itd)"/>
-                    <button @click="clear()" class="btn btn-info">Wyczyść</button>
+                    <input type="text" v-model="search_date" placeholder="Wpisz datę szukanego zadania (np. '2021-09-08' lub '2021-09' lub '2021' itd)"/>
+                    <button @click="clearSearchData()" class="btn btn-info">Wyczyść</button>
                 </div>
                 <br/>
                 <div >
                     <span>Wyszukiwanie wpisów według zakresu dat:</span><br/>
-                    <input type="text" v-model="search2" placeholder="Od (np. '2020-01-01')"/>
-                    <input type="text" v-model="search22" placeholder="Do (np. '2021-06-01')"/>
-                    <button @click="searchf()" class="btn btn-primary">Szukaj</button>
-                    <button @click="clear2()" class="btn btn-info">Wyczyść</button>
+                    <input type="text" v-model="search_date_from" placeholder="Od (np. '2020-01-01')"/>
+                    <span id="dateSep">-</span>
+                    <input type="text" v-model="search_date_to" placeholder="Do (np. '2021-06-01')"/>
+                    <button @click="searchRange()" class="btn btn-primary">Szukaj</button>
+                    <button @click="clearSearchDataRange()" class="btn btn-info">Wyczyść</button>
                 </div>
         </div>
         <work-list :works="works" v-on:reloadlist="getList()" />
@@ -33,9 +34,9 @@ export default {
     data: function() {
         return {
             works: [],
-            search: '',
-            search2: '',
-            search22: ''
+            search_date: '',
+            search_date_from: '',
+            search_date_to: ''
         }
     },
     
@@ -49,23 +50,10 @@ export default {
                 console.log(error);
             })
         },
-        searchdata(value) {
-            if(this.search.length > 0)
+        searchData(date) {
+            if(this.search_date.length > 0)
             {
-                axios.get('/work/search/' + value)
-                .then(response => {
-                    this.works = response.data;
-                    //console.log(this.search.length);
-                })
-                .catch(error => {
-                    console.log('blad' + error);
-                })
-            }
-        },
-        searchdatarange(value, value2) {
-            if(this.search2.length > 0 && this.search22.length > 0)
-            {
-                axios.get('/work/search/' + value + '/' + value2)
+                axios.get('/work/search/' + date)
                 .then(response => {
                     this.works = response.data;
                 })
@@ -74,22 +62,34 @@ export default {
                 })
             }
         },
-        clear() {
-            this.search = "";
+        searchDataRange(date, date2) {
+            if(this.search_date_from.length > 0 && this.search_date_to.length > 0)
+            {
+                axios.get('/work/search/' + date + '/' + date2)
+                .then(response => {
+                    this.works = response.data;
+                })
+                .catch(error => {
+                    console.log(error);
+                })
+            }
+        },
+        clearSearchData() {
+            this.search_date = "";
             this.getList();
         },
-        clear2() {
-            this.search2 = "";
-            this.search22 = "";
+        clearSearchDataRange() {
+            this.search_date_from = "";
+            this.search_date_to = "";
             this.getList();
         },
-        searchf () {
-            this.searchdatarange(this.search2, this.search22);
+        searchRange () {
+            this.searchDataRange(this.search_date_from, this.search_date_to);
         }
     },
     watch: {
-        search () {
-            this.searchdata(this.search);
+        search_date () {
+            this.searchData(this.search_date);
         }
     },
     created() {
@@ -124,6 +124,10 @@ input {
   } 
 .searchFieldsContainer {
     margin-top: 20px;
+}
+
+#dateSep {
+    margin-right: 10px;
 }
 
 

@@ -74,17 +74,7 @@ class WorkController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $work = Work::find( $id );
-
-        if ($work) {
-            //$work->completed = $request->work['completed'] ? true : false;
-            //$work->start_working = $request->work['completed'] ? Carbon::now() : null;
-            $work->start_working = Carbon::now();
-            $work->save();
-            return $work;
-        }
-
-        return "Work not found.";
+        //
     }
 
     /**
@@ -95,7 +85,7 @@ class WorkController extends Controller
      */
     public function destroy($id)
     {
-        $work = Work::find( $id );
+        $work = Work::find($id);
 
         if ($work) {
             $work->delete();
@@ -104,19 +94,23 @@ class WorkController extends Controller
 
         return "Work not found.";
     }
+    
+    public function startWork(Request $request, $id)
+    {
+        $work = Work::find($id);
 
+        if ($work) {
+            $work->start_working = Carbon::now();
+            $work->save();
+            return $work;
+        }
 
+        return "Work not found.";
+    }
 
-        /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function stopWork(Request $request, $id)
     {
-        $work = Work::find( $id );
+        $work = Work::find($id);
 
         if ($work) {
             $work->completed = $request->work['completed'] ? true : false;
@@ -128,20 +122,15 @@ class WorkController extends Controller
         return "Work not found.";
     }
 
-    public function searchData($data)
+    public function searchData($date)
     {
-        
-        $work = Work::where('start_working', 'LIKE', '%'.$data.'%')->get();
+        $work = Work::where('start_working', 'LIKE', '%'.$date.'%')->get();
         return $work;
     }
 
-    public function searchData2($data, $data2)
+    public function searchDataRange($date_from, $date_to)
     {
-        $from = date('2021-07-01');
-        $to = date('2022-05-02');
-        $work = Work::whereBetween('start_working', [$data, $data2])->get();
-
-        //$work = Work::where('start_working', 'LIKE', '%'.$data.'%')->get();
+        $work = Work::whereBetween('start_working', [$date_from, $date_to])->get();
         return $work;
     }
 }
